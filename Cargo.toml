@@ -4,4 +4,5 @@ members = [
     "buka",
     "plugins/hello",
     "plugins/system",
+    "plugins/echo",
 ]

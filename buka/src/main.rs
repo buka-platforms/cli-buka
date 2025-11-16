@@ -5,7 +5,7 @@ use std::ffi::CString;
 #[derive(Parser)]
 #[command(name = "buka")]
 #[command(
-    about = "Buka is a general-purpose plugin-based CLI",
+    about = "Buka CLI is a general-purpose plugin-based CLI.",
     version = env!("CARGO_PKG_VERSION")
 )]
 struct Cli {

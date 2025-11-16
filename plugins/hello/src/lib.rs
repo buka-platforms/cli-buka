@@ -3,7 +3,6 @@ use std::ffi::CStr;
 use std::os::raw::c_char;
 
 #[derive(Parser)]
-#[command(name = "hello")]
 #[command(about = "Hello plugin")]
 struct HelloCli {
     #[arg(short, long, default_value = "World")]
@@ -18,7 +17,10 @@ struct HelloCli {
 pub unsafe extern "C" fn run_plugin(args: *const c_char) {
     // Receive JSON array of args
     let json_str = unsafe { CStr::from_ptr(args).to_string_lossy() };
-    let vec: Vec<String> = serde_json::from_str(&json_str).unwrap();
+    let mut vec: Vec<String> = serde_json::from_str(&json_str).unwrap();
+
+    // Prepend a dummy binary name for clap
+    vec.insert(0, "hello".to_string());
 
     // Let Clap parse the forwarded arguments
     let cli = HelloCli::parse_from(vec);

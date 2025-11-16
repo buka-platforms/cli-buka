@@ -19,6 +19,9 @@ if [ $? -eq 0 ]; then
     DIST_DIR="$BUILD_DIR/dist_plugins"
     mkdir -p "$DIST_DIR"
 
+    # Remove all files in dist_plugins directory
+    rm -f "$DIST_DIR"/*
+
     # Detect OS and set library extension
     if [ "$(uname)" = "Darwin" ]; then
         EXT="dylib"

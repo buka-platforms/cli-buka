@@ -3,10 +3,12 @@ use libloading::{Library, Symbol};
 use std::ffi::CString;
 
 #[derive(Parser)]
-#[command(name = "buka")]
 #[command(
+    name = "buka",
     about = "Buka CLI is a general-purpose plugin-based CLI.",
-    version = env!("CARGO_PKG_VERSION")
+    version = env!("CARGO_PKG_VERSION"),
+    disable_help_flag = true,
+    disable_help_subcommand = true
 )]
 struct Cli {
     /// Plugin name (e.g., hello)
@@ -28,9 +30,27 @@ fn get_library_filename(plugin: &str) -> String {
 }
 
 fn main() {
+    // Get the raw arguments, skipping the binary name
+    let mut raw_args = std::env::args().skip(1);
+
+    // If the first argument is --help or -h, print main app help
+    if let Some(arg) = raw_args.next() {
+        if arg == "--help" || arg == "-h" {
+            Cli::command().print_help().unwrap();
+            println!();
+            return;
+        }
+    } else {
+        // No arguments, print main app help
+        Cli::command().print_help().unwrap();
+        println!();
+        return;
+    }
+
     let cli = Cli::parse();
 
     if let Some(plugin) = cli.plugin {
+        // Forward all args (including --help) to the plugin
         let lib_path = format!("dist_plugins/{}", get_library_filename(&plugin));
         unsafe {
             let lib = Library::new(lib_path).expect("Error: Failed to load plugin library.");
@@ -42,7 +62,7 @@ fn main() {
             func(c_args.as_ptr());
         }
     } else {
-        // Show usage/help
+        // No plugin specified, print main app help
         Cli::command().print_help().unwrap();
         println!();
     }

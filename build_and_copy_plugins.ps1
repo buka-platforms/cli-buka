@@ -23,6 +23,9 @@ if ($LASTEXITCODE -eq 0) {
         New-Item -ItemType Directory -Path $distDir | Out-Null
     }
 
+    # Remove all files in dist_plugins directory
+    Get-ChildItem -Path $distDir -File | Remove-Item -Force
+
     # Detect all plugin folders under 'plugins'
     $pluginRoot = "plugins"
     $pluginDirs = Get-ChildItem -Path $pluginRoot -Directory | Select-Object -ExpandProperty Name

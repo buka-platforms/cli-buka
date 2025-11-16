@@ -6,7 +6,7 @@ use std::ffi::CString;
 #[command(name = "buka")]
 #[command(
     about = "Buka is a general-purpose plugin-based CLI",
-    version = "0.1.0"
+    version = env!("CARGO_PKG_VERSION")
 )]
 struct Cli {
     /// Plugin name (e.g., hello)

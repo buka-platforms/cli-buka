@@ -3,8 +3,11 @@ use std::ffi::CStr;
 use std::os::raw::c_char;
 
 #[derive(Parser)]
-#[command(about = "Hello plugin")]
+#[command(name = "hello")]
+#[command(about = "Plugin 'hello': prints a greeting message")]
+#[command(version = env!("CARGO_PKG_VERSION"))]
 struct HelloCli {
+    /// Name to greet
     #[arg(short, long, default_value = "World")]
     name: String,
 }

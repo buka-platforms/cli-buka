@@ -8,7 +8,8 @@ use std::ffi::CString;
     about = "Buka CLI is a general-purpose plugin-based CLI.",
     version = env!("CARGO_PKG_VERSION"),
     disable_help_flag = true,
-    disable_help_subcommand = true
+    disable_help_subcommand = true,
+    disable_version_flag = true,
 )]
 struct Cli {
     /// Plugin name (e.g., hello)
@@ -38,6 +39,11 @@ fn main() {
         if arg == "--help" || arg == "-h" {
             Cli::command().print_help().unwrap();
             println!();
+            return;
+        }
+        if arg == "--version" || arg == "-V" {
+            // Print main app version
+            println!("buka {}", env!("CARGO_PKG_VERSION"));
             return;
         }
     } else {

@@ -3,8 +3,10 @@ use std::ffi::CStr;
 use std::os::raw::c_char;
 
 #[derive(Parser)]
-#[command(about = "System plugin: prints system info")]
-struct InfoCli {
+#[command(name = "system")]
+#[command(about = "Plugin 'system': prints system information")]
+#[command(version = env!("CARGO_PKG_VERSION"))]
+struct SystemCli {
     /// Show OS info
     #[arg(long)]
     os: bool,
@@ -18,7 +20,7 @@ pub unsafe extern "C" fn run_plugin(args: *const c_char) {
     let json_str = CStr::from_ptr(args).to_string_lossy();
     let mut vec: Vec<String> = serde_json::from_str(&json_str).unwrap();
     vec.insert(0, "system".to_string());
-    let cli = InfoCli::parse_from(vec);
+    let cli = SystemCli::parse_from(vec);
 
     if cli.os {
         println!("OS: {}", std::env::consts::OS);

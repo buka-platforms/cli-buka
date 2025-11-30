@@ -30,3 +30,10 @@ pub unsafe extern "C" fn run_plugin(args: *const c_char) {
         println!("System plugin: use --os for details.");
     }
 }
+
+#[no_mangle]
+pub extern "C" fn get_plugin_description() -> *const std::os::raw::c_char {
+    std::ffi::CString::new("Prints system information.")
+        .unwrap()
+        .into_raw()
+}

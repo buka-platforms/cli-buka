@@ -5,4 +5,5 @@ members = [
     "plugins/hello",
     "plugins/system",
     "plugins/echo",
+    "plugins/plugin",
 ]

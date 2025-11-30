@@ -29,3 +29,10 @@ pub unsafe extern "C" fn run_plugin(args: *const c_char) {
 
     println!("Hello, {}!", cli.name);
 }
+
+#[no_mangle]
+pub extern "C" fn get_plugin_description() -> *const std::os::raw::c_char {
+    std::ffi::CString::new("Prints a greeting message.")
+        .unwrap()
+        .into_raw()
+}

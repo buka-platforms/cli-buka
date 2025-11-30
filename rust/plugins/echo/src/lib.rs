@@ -11,3 +11,10 @@ pub unsafe extern "C" fn run_plugin(args_json: *const c_char) {
     let output = args.join(" ");
     println!("{}", output);
 }
+
+#[no_mangle]
+pub extern "C" fn get_plugin_description() -> *const std::os::raw::c_char {
+    std::ffi::CString::new("Echoes input arguments back to the user.")
+        .unwrap()
+        .into_raw()
+}

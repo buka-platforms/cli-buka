@@ -30,6 +30,12 @@ fn get_library_filename(plugin: &str) -> String {
     }
 }
 
+fn print_main_help_with_flags() {
+    Cli::command().print_help().unwrap();
+    // Manually append the missing flags
+    println!("\nOptions:\n  -h, --help           Print help\n  -V, --version        Print version");
+}
+
 fn main() {
     // Get the raw arguments, skipping the binary name
     let mut raw_args = std::env::args().skip(1);
@@ -37,7 +43,7 @@ fn main() {
     // If the first argument is --help or -h, print main app help
     if let Some(arg) = raw_args.next() {
         if arg == "--help" || arg == "-h" {
-            Cli::command().print_help().unwrap();
+            print_main_help_with_flags();
             println!();
             return;
         }
@@ -47,8 +53,7 @@ fn main() {
             return;
         }
     } else {
-        // No arguments, print main app help
-        Cli::command().print_help().unwrap();
+        print_main_help_with_flags();
         println!();
         return;
     }
@@ -69,7 +74,7 @@ fn main() {
         }
     } else {
         // No plugin specified, print main app help
-        Cli::command().print_help().unwrap();
+        print_main_help_with_flags();
         println!();
     }
 }
